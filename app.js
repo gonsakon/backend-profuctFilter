@@ -13,6 +13,18 @@ const products = [
 const server = http.createServer(function (req, res) {
   // 統一回應都是 JSON
   res.setHeader("Content-Type", "application/json; charset=utf-8");
+  
+  // CORS 設定
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  
+  // 處理 preflight request
+  if (req.method === "OPTIONS") {
+    res.statusCode = 204;
+    res.end();
+    return;
+  }
 
   // Health API
   if (req.url === "/api/health" && req.method === "GET") {
